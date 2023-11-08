@@ -23,12 +23,17 @@ void term(int status);
 
 void gettargetdir(char *dirbuf, char *argv0);
 
-float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
+float vertices0[] = {
+	-1.0f, -0.5f, 0.0f,
+	 0.0f, -0.5f, 0.0f,
+	-0.5f,  0.5f, 0.0f,
 };
-GLuint prog, VBO, VAO;
+float vertices1[] = {
+	 0.0f, -0.5f, 0.0f,
+	 1.0f, -0.5f, 0.0f,
+	 0.5f,  0.5f, 0.0f,
+};
+GLuint prog[2], VBOs[2], VAOs[2];
 
 void
 handleFrambufferResize(GLFWwindow *win, int w, int h)
@@ -80,29 +85,50 @@ glad_init(void)
 void
 setup(void)
 {
-	char *shd_src[2];
+	char *shd_src[3];
 	GLuint shds[2];
 
 	shd_src[0] = loadfile("data/shaders/vertex.shader");
-	shd_src[1] = loadfile("data/shaders/fragment.shader");
+	shd_src[1] = loadfile("data/shaders/fragmentOrange.shader");
 
-	if ((!compile_shader(&shds[0], GL_VERTEX_SHADER, shd_src[0])) ||
-		!compile_shader(&shds[1], GL_FRAGMENT_SHADER, shd_src[1])) {
-		fprintf(stderr, "hello I am under the return 0\n");
+	if (!compile_shader(&shds[0], GL_VERTEX_SHADER, shd_src[0])) {
+		fprintf(stderr, "hello I am under the vertex return\n");
 		return;
 	}
 
-	if (!link_prog(&prog, sizeof (shds) / sizeof (shds)[0], shds)) {
-		fprintf(stderr, "hello I am under the return 1\n");
+	if (!compile_shader(&shds[1], GL_FRAGMENT_SHADER, shd_src[1])) {
+		fprintf(stderr, "hello I am under the orange return 0\n");
+		return;
+	}
+	if (!link_prog(&prog[0], sizeof (shds) / sizeof (shds)[0], shds)) {
+		fprintf(stderr, "hello I am under the orange return 1\n");
 		return;
 	}
 
-	glGenBuffers(1, &VBO);
-	glGenVertexArrays(1, &VAO);
+	shd_src[1] = loadfile("data/shaders/fragmentYellow.shader");
+	if (!compile_shader(&shds[1], GL_FRAGMENT_SHADER, shd_src[1])) {
+		fprintf(stderr, "hello I am under the yellow return 0\n");
+		return;
+	}
+	if (!link_prog(&prog[1], sizeof (shds) / sizeof (shds)[0], shds)) {
+		fprintf(stderr, "hello I am under the yellow return 1\n");
+		return;
+	}
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	/* VBOs, VAOs 0 */
+	glGenBuffers(2, VBOs);
+	glGenVertexArrays(2, VAOs);
+
+	glBindVertexArray(VAOs[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices0), vertices0, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	/* VBOs, VAOs 1 */
+	glBindVertexArray(VAOs[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 }
@@ -114,8 +140,12 @@ run(void)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(prog);
-		glBindVertexArray(VAO);
+		glUseProgram(prog[0]);
+		glBindVertexArray(VAOs[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glUseProgram(prog[1]);
+		glBindVertexArray(VAOs[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(win);
@@ -163,3 +193,4 @@ main(int argc, char *argv[])
 
 	term(0);
 }
+
