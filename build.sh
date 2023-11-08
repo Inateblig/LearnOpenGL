@@ -50,13 +50,14 @@ echo "Done compiling."
 shddir=$(find $source -maxdepth 1 -type d -name "shaders")
 if [ -n "$shddir" ] && ! [ -d "$builddir/data/shaders" ]
 then
-	echo "$shddir"
-	echo "$builddir/data/shaders"
 	mkdir -p "$builddir/data"
 	ln -s "../../../$shddir" "$builddir/data/"
 fi
 
 if [ $# -gt 0 ] && [ "$1" = run ]
 then
+	echo "Running.."
 	"./$builddir/main.exe"
 fi
+
+echo "Finished."
