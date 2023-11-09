@@ -1,1 +1,1 @@
-![2.0_HelloTriangle.png](/data/screenshots/2.0_HelloTriangle.png)
+![3.1_HelloRainbow.png](/data/screenshots/3.1_HelloRainbow.png)
