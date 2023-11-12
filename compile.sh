@@ -14,4 +14,4 @@ builddir=$output
 mkdir -p "$builddir"
 
 srcf=$(find "$source" -maxdepth 1 -name "*.c")
-clang $srcf glad/src/gl.c -Iglad/include -lglfw -lm -o "$builddir/main.exe"
+clang $srcf glad/src/gl.c -Iglad/include -Ilibs/ -lglfw -lm -o "$builddir/main.exe"

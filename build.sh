@@ -54,6 +54,11 @@ then
 	ln -s "../../../$shddir" "$builddir/data/"
 fi
 
+if [ -n "data/textures" ] && ! [ -d "$builddir/data/textures" ]
+then
+	ln -s "../../../data/textures" "$builddir/data/"
+fi
+
 if [ $# -gt 0 ] && [ "$1" = run ]
 then
 	echo "Running.."

@@ -1,1 +1,1 @@
-![2.3_Exercise.png](/data/screenshots/2.3_Exercise.png)
+![2.3_Exercise.png](/screenshots/2.3_Exercise.png)

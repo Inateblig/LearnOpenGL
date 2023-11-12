@@ -1,1 +1,1 @@
-![3.0_HelloShader.png](/data/screenshots/3.0_HelloShader.png)
+![3.0_HelloShader.png](/screenshots/3.0_HelloShader.png)
