@@ -56,6 +56,7 @@ fi
 
 if [ -n "data/textures" ] && ! [ -d "$builddir/data/textures" ]
 then
+	mkdir -p "$builddir/data"
 	ln -s "../../../data/textures" "$builddir/data/"
 fi
 
