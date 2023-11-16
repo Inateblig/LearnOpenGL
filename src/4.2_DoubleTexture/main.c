@@ -136,6 +136,7 @@ setup(void)
 		fprintf(stderr, "hello I am under the texture return 1\n");
 		return;
 	}
+	glUseProgram(prog);
 	glUniform1i(glGetUniformLocation(prog, "texture0"), 0);
 	glUniform1i(glGetUniformLocation(prog, "texture1"), 1);
 }
