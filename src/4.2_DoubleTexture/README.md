@@ -1,3 +1,3 @@
-![4.1_HelloTextureLODEPNG.png](/screenshots/4.1_HelloTextureLODEPNG.png)
+![4.2_DoubleTexture.png](/screenshots/4.2_DoubleTexture.png)
 
 Uses [lodepng](https://lodev.org/lodepng/) library.
